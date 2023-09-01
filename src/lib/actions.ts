@@ -13,6 +13,7 @@ import {
   projectsQuery,
 } from "../graphql";
 import { ProjectForm } from "../../common.types";
+import { is } from "date-fns/locale";
 //import { HttpsProxyAgent } from "https-proxy-agent";
 
 //const agent = new HttpsProxyAgent("http://evapzen.fpl.com:10262");
@@ -169,4 +170,44 @@ export const deleteProject = (id: string, token: string) => {
   //i guess if it has the token, then it doesn't need the API key header
   client.setHeader("Authorization", `Bearer ${token}`);
   return makeGraphQLRequest(deleteProjectMutation, { id });
+};
+
+export const updateProject = async (
+  form: ProjectForm,
+  projectId: string,
+  token: string
+) => {
+  //check if user has redeployed new image, or kept same one
+  //if they did, new upload. so if it's a base64 image, it's a new upload, if it's cloudinary then it's the same
+  function isBase64DataUrl(str: string): boolean {
+    const regex = /^data:(.*?);base64,(.*)$/;
+    return regex.test(str);
+  }
+
+  let updatedForm = { ...form };
+
+  const isUpoadingNewImage = isBase64DataUrl(form.image);
+
+  if (isUpoadingNewImage) {
+    const imageUrl = await uploadImage(form.image);
+    if (imageUrl.url) {
+      updatedForm = {
+        ...form,
+        image: imageUrl.url,
+      };
+    }
+    if (imageUrl.url) {
+      updatedForm.image = imageUrl.url;
+    }
+  }
+
+  const variables = {
+    id: projectId,
+    input: updatedForm,
+  };
+
+  //this is a secure action so token must be in header
+  //i guess if it has the token, then it doesn't need the API key header
+  client.setHeader("Authorization", `Bearer ${token}`);
+  return makeGraphQLRequest(updateProjectMutation, variables);
 };

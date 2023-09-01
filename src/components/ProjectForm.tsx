@@ -1,13 +1,18 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { SessionInterface } from "../../common.types";
+import { ProjectInterface, SessionInterface } from "../../common.types";
 import Image from "next/image";
 import FormField from "./FormField";
 import { categoryFilters } from "@/constants";
 import CustomMenu from "./CustomMenu";
 import Button from "./Button";
-import { createNewProject, fetchTestData, fetchToken } from "@/lib/actions";
+import {
+  createNewProject,
+  fetchTestData,
+  fetchToken,
+  updateProject,
+} from "@/lib/actions";
 import { useRouter } from "next/navigation";
 
 //we created sessionInterface
@@ -15,10 +20,11 @@ import { useRouter } from "next/navigation";
 type Props = {
   type: string;
   session: SessionInterface;
+  project?: ProjectInterface;
 };
 
 //we will have different types of forms, pass type as prop
-const ProjectForm = ({ type, session }: Props) => {
+const ProjectForm = ({ type, session, project }: Props) => {
   const router = useRouter();
 
   const [testData, setTestData] = useState("");
@@ -47,6 +53,11 @@ const ProjectForm = ({ type, session }: Props) => {
         console.log(form);
         await createNewProject(form, session?.user?.id, token);
         //console.log(project);
+        router.push("/");
+      }
+      //should be treated as a string even if it is undefined
+      if (type === "edit") {
+        await updateProject(form, project?.id as string, token);
         router.push("/");
       }
     } catch (error) {
@@ -87,12 +98,12 @@ const ProjectForm = ({ type, session }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   //create state for each field
   const [form, setForm] = useState({
-    title: "",
-    description: "",
-    image: "",
-    liveSiteUrl: "",
-    githubUrl: "",
-    category: "",
+    title: project?.title || "",
+    description: project?.description || "",
+    image: project?.image || "",
+    liveSiteUrl: project?.liveSiteUrl || "",
+    githubUrl: project?.githubUrl || "",
+    category: project?.category || "",
   });
 
   return (

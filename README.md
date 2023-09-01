@@ -1,3 +1,9 @@
+A project sharing application using GraphQL (Grafbase), NextJS 13, and Typescript.
+
+- To be honest there's a lot left to be done, but I'm happy with the patterns learned.
+  User can upload a project, view other users' projects, view "related projects" based on user, etc.
+- As with most of my learning projects, I apologize for some of the messy bits and over-commenting.
+
 Be sure to save grafbase sdk as dev dependency, in yarn with --dev
 
 initialize a grafbase project with:
