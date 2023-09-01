@@ -121,11 +121,11 @@ body {
 
 /* Modal */
 .modal {
-  @apply fixed z-10 left-0 right-0 top-0 bottom-0 mx-auto bg-black/80;
+  @apply fixed z-10 left-0 right-0 top-0 bottom-0 mx-auto bg-black/70;
 }
 
 .modal_wrapper {
-  @apply flex justify-start items-center flex-col absolute h-[95%] w-full bottom-0 bg-white rounded-t-3xl lg:px-40 px-8 pt-14 pb-72 overflow-auto;
+  @apply flex justify-start items-center flex-col absolute h-[95%] w-full bottom-0 bg-slate-50 rounded-t-3xl lg:px-40 px-8 pt-14 pb-72 overflow-auto;
 }
 
 /* Navbar */
@@ -145,7 +145,7 @@ body {
 
 /* Project Form */
 .form {
-  @apply flex-col w-full lg:pt-24 pt-12 gap-10 text-lg max-w-5xl mx-auto;
+  @apply flex-col w-full lg:pt-24 pt-12 gap-4 text-base max-w-5xl mx-auto;
 }
 
 .form_image-container {
