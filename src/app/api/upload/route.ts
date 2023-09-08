@@ -13,7 +13,7 @@ cloudinary.config({
 });
 
 export async function GET() {
-  return NextResponse.json({ message: "Hello from upload" }, { status: 200 });
+  return NextResponse.json({ message: "Hello from chatbot" }, { status: 200 });
 }
 export async function POST(request: Request) {
   const { path } = await request.json();

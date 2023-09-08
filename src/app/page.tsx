@@ -1,6 +1,8 @@
 import { fetchAllProjects } from "@/lib/actions";
 import { ProjectInterface } from "../../common.types";
 import ProjectCard from "@/components/ProjectCard";
+import Categories from "@/components/Categories";
+import LoadMore from "@/components/LoadMore";
 
 type SearchParams = {
   category?: string | null;
@@ -46,7 +48,7 @@ const Home = async ({ searchParams: { category, endcursor } }: Props) => {
 
   return (
     <section className="flex-start flex-col paddings mb-16">
-      <h1>Categories</h1>
+      <Categories />
       <section className="projects-grid">
         {projectsToDisplay.map(({ node }: { node: ProjectInterface }) => (
           //what items do we need on the card? items from the project interface
@@ -61,7 +63,12 @@ const Home = async ({ searchParams: { category, endcursor } }: Props) => {
           />
         ))}
       </section>
-      <h1>LoadMore</h1>
+      <LoadMore
+        startCursor={data?.projectSearch?.pageInfo?.startCursor}
+        endCursor={data?.projectSearch?.pageInfo?.endCursor}
+        hasPreviousPage={data?.projectSearch?.pageInfo?.hasPreviousPage}
+        hasNextPage={data?.projectSearch?.pageInfo.hasNextPage}
+      />
     </section>
   );
 };
