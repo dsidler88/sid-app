@@ -1,3 +1,5 @@
+##GraphQL NextJS application, for sharing photos. 
+
 Be sure to save grafbase sdk as dev dependency, in yarn with --dev
 
 initialize a grafbase project with:
